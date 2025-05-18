@@ -117,6 +117,7 @@ interface CollisionMechanismProps {
 const CollisionMechanism = React.forwardRef<HTMLDivElement, CollisionMechanismProps>(
   ({ parentRef, containerRef, beamOptions = {} }, ref: ForwardedRef<HTMLDivElement>) => {
     const beamRef = useRef<HTMLDivElement>(null);
+    React.useImperativeHandle(ref, () => beamRef.current!);
     const [collision, setCollision] = useState<{
       detected: boolean;
       coordinates: { x: number; y: number } | null;
@@ -225,7 +226,9 @@ const CollisionMechanism = React.forwardRef<HTMLDivElement, CollisionMechanismPr
 
 CollisionMechanism.displayName = "CollisionMechanism";
 
-interface ExplosionProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface ExplosionProps extends React.HTMLAttributes<HTMLDivElement> {
+  // Intentionally empty to extend HTMLAttributes without adding new props
+}
 
 const Explosion = ({ className, style, ...props }: ExplosionProps) => {
   const spans = Array.from({ length: 20 }, (_, index) => ({
