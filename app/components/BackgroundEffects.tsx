@@ -1,35 +1,24 @@
 "use client";
+
 import React from "react";
 import { BackgroundBeamsWithCollision } from "./ui/background-beams-with-collision";
 
-import { useState } from "react";
-import { useId } from "react";
-
-type CSSPropertiesWithVars = React.CSSProperties & {
-  '--angle'?: string;
-  '--distance'?: string;
-};
-
 export function BackgroundEffects() {
-  const id = useId();
-  const [explodingLines, setExplodingLines] = useState<number[]>([]);
+  // Pre-calculate the random dots for better performance
+  const floatingDots = Array.from({ length: 200 }).map((_, i) => ({
+    id: i,
+    left: `${Math.random() * 100}%`,
+    top: `${Math.random() * 100}%`,
+    delay: `${Math.random() * 5}s`,
+    duration: `${3 + Math.random() * 7}s`
+  }));
 
-  const seededRandom = (seed: string, index: number) => {
-    let hash = 0;
-    for (let i = 0; i < seed.length; i++) {
-      hash = (hash << 5) - hash + seed.charCodeAt(i);
-      hash |= 0;
-    }
-    const x = Math.sin(hash + index) * 10000;
-    return x - Math.floor(x);
-  };
-
-  const handleAnimationEnd = (i: number) => {
-    setExplodingLines(prev => [...prev, i]);
-    setTimeout(() => {
-      setExplodingLines(prev => prev.filter(item => item !== i));
-    }, 1000);
-  };
+  // Pre-calculate the grid dots for better performance
+  const gridDots = Array.from({ length: 400 }).map((_, i) => ({
+    id: i,
+    left: `${(i % 20) * 5}%`,
+    top: `${Math.floor(i / 20) * 5}%`
+  }));
 
   return (
     <div 
@@ -42,33 +31,32 @@ export function BackgroundEffects() {
       }}
     >
       <BackgroundBeamsWithCollision>
-        <>
-        </>
+        <></>
       </BackgroundBeamsWithCollision>
 
       <div className="absolute inset-0 opacity-30">
-        {Array.from({ length: 200 }).map((_, i) => (
+        {floatingDots.map((dot) => (
           <div
-            key={`dot-${i}`}
+            key={`dot-${dot.id}`}
             className="absolute h-1 w-1 animate-float rounded-full bg-white"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 5}s`,
-              animationDuration: `${3 + Math.random() * 7}s`
+              left: dot.left,
+              top: dot.top,
+              animationDelay: dot.delay,
+              animationDuration: dot.duration
             }}
           />
         ))}
       </div>
 
       <div className="absolute inset-0 opacity-10">
-        {Array.from({ length: 400 }).map((_, i) => (
+        {gridDots.map((dot) => (
           <div
-            key={`grid-dot-${i}`}
+            key={`grid-dot-${dot.id}`}
             className="absolute h-1 w-1 rounded-full bg-white"
             style={{
-              left: `${(i % 20) * 5}%`,
-              top: `${Math.floor(i / 20) * 5}%`
+              left: dot.left,
+              top: dot.top
             }}
           />
         ))}

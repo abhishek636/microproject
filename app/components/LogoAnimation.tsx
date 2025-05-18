@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { useSprings, animated, SpringRef } from "@react-spring/web";
+import { useSprings, animated } from "@react-spring/web";
 
 interface LogoAnimationProps {
   text?: string;
@@ -34,13 +34,13 @@ export default function LogoAnimation({
     const runAnimation = async () => {
       while (animationRunning) {
         // Animate in
-        await api.start((index) => ({
+        await api.start((i) => ({
           to: {
             opacity: 1,
             transform: "translate3d(0,0px,0)",
             config: { duration },
           },
-          delay: index * delay,
+          delay: i * delay,
         }));
 
         // Pause
@@ -49,13 +49,13 @@ export default function LogoAnimation({
         });
 
         // Animate out
-        await api.start((index) => ({
+        await api.start((i) => ({
           to: {
             opacity: 0,
             transform: "translate3d(0,-30px,0)",
             config: { duration },
           },
-          delay: index * delay,
+          delay: i * delay,
         }));
 
         // Pause
@@ -85,8 +85,8 @@ export default function LogoAnimation({
         className="split-parent"
         style={{
           textAlign,
-          whiteSpace: "normal" as const,
-          wordWrap: "break-word" as const,
+          whiteSpace: "normal",
+          wordWrap: "break-word",
           fontSize: "5rem",
           fontWeight: 600,
           display: 'inline-flex',
@@ -95,11 +95,12 @@ export default function LogoAnimation({
       >
         {words.map((word, wordIndex) => (
           <span
-            key={wordIndex}
+            key={`word-${wordIndex}`}
             style={{ 
               display: "inline-block", 
-              whiteSpace: "nowrap" as const,
-              lineHeight: '1.2'
+              whiteSpace: "nowrap",
+              lineHeight: '1.2',
+              marginRight: wordIndex < words.length - 1 ? '0.5em' : 0
             }}
           >
             {word.map((letter, letterIndex) => {
@@ -109,11 +110,11 @@ export default function LogoAnimation({
 
               return (
                 <animated.span
-                  key={index}
+                  key={`letter-${index}`}
                   style={springs[index]}
                   className="inline-block will-change-transform"
                 >
-                  {letter}
+                  {letter === " " ? "\u00A0" : letter}
                 </animated.span>
               );
             })}

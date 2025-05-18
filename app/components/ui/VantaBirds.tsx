@@ -4,9 +4,13 @@ import { useEffect, useRef } from 'react';
 
 declare global {
   interface Window {
-    THREE: any;
+    THREE?: typeof import('three'); // More specific type
   }
 }
+
+type VantaEffect = {
+  destroy: () => void;
+};
 
 export default function VantaBirds() {
   const vantaRef = useRef<HTMLDivElement>(null);
@@ -14,7 +18,7 @@ export default function VantaBirds() {
   useEffect(() => {
     if (!vantaRef.current) return;
 
-    let effect: any;
+    let effect: VantaEffect | null = null;
     let mounted = true;
 
     const initVanta = async () => {
@@ -43,11 +47,8 @@ export default function VantaBirds() {
           mouseControls: true,
           touchControls: true,
           gyroControls: false,
-        });
+        }) as VantaEffect;
 
-        return () => {
-          if (effect) effect.destroy();
-        };
       } catch (error) {
         console.error('Vanta.js initialization failed:', error);
       }
@@ -57,8 +58,13 @@ export default function VantaBirds() {
 
     return () => {
       mounted = false;
-      if (effect) effect.destroy();
-      if (window.THREE) delete window.THREE;
+      if (effect) {
+        effect.destroy();
+        effect = null;
+      }
+      if (window.THREE) {
+        delete window.THREE;
+      }
     };
   }, []);
 
@@ -66,7 +72,6 @@ export default function VantaBirds() {
     <div 
       ref={vantaRef} 
       className="fixed inset-0 -z-50 w-full h-full"
-      style={{ backgroundColor: '#000' }}
     />
   );
 }
