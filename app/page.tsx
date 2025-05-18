@@ -1,4 +1,3 @@
-import Image from "next/image";
 import HerSection from "./components/home/HerSection";
 import FloatingOrb from './components/ui/FloatingOrb';
 
