@@ -1,8 +1,36 @@
 "use client";
+import React from "react";
+import { BackgroundBeamsWithCollision } from "./ui/background-beams-with-collision";
 
-import { useRef } from "react";
+import { useState } from "react";
+import { useId } from "react";
+
+type CSSPropertiesWithVars = React.CSSProperties & {
+  '--angle'?: string;
+  '--distance'?: string;
+};
 
 export function BackgroundEffects() {
+  const id = useId();
+  const [explodingLines, setExplodingLines] = useState<number[]>([]);
+
+  const seededRandom = (seed: string, index: number) => {
+    let hash = 0;
+    for (let i = 0; i < seed.length; i++) {
+      hash = (hash << 5) - hash + seed.charCodeAt(i);
+      hash |= 0;
+    }
+    const x = Math.sin(hash + index) * 10000;
+    return x - Math.floor(x);
+  };
+
+  const handleAnimationEnd = (i: number) => {
+    setExplodingLines(prev => [...prev, i]);
+    setTimeout(() => {
+      setExplodingLines(prev => prev.filter(item => item !== i));
+    }, 1000);
+  };
+
   return (
     <div 
       className="fixed inset-0 -z-50 overflow-hidden bg-black"
@@ -13,26 +41,11 @@ export function BackgroundEffects() {
         backgroundSize: "40px 40px",
       }}
     >
-      {/* Falling gradient lines */}
-      <div className="absolute inset-0 overflow-hidden">
-        {Array.from({ length: 50 }).map((_, i) => (
-          <div
-            key={`line-${i}`}
-            className="absolute h-32 w-0.5 animate-fall"
-            style={{
-              left: `${Math.random() * 100}%`,
-              animationDelay: `${i * 0.2}s`,
-              background: "linear-gradient(to bottom,rgba(78, 70, 229, 0.42),rgba(236, 72, 154, 0.58),rgba(245, 159, 11, 0.53))",
-              animationDuration: `${2 + Math.random() * 3}s`,
-              transform: `scaleY(${0.5 + Math.random() * 0.5}) translateZ(0)`
-            }}
-          >
-            <div className="absolute inset-0 bg-white/20 blur-[2px]" />
-          </div>
-        ))}
-      </div>
+      <BackgroundBeamsWithCollision>
+        <>
+        </>
+      </BackgroundBeamsWithCollision>
 
-      {/* Floating animated dots */}
       <div className="absolute inset-0 opacity-30">
         {Array.from({ length: 200 }).map((_, i) => (
           <div
@@ -41,14 +54,13 @@ export function BackgroundEffects() {
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 2}s`,
-              animationDuration: `${3 + Math.random() * 3}s`
+              animationDelay: `${Math.random() * 5}s`,
+              animationDuration: `${3 + Math.random() * 7}s`
             }}
           />
         ))}
       </div>
 
-      {/* Grid intersection dots */}
       <div className="absolute inset-0 opacity-10">
         {Array.from({ length: 400 }).map((_, i) => (
           <div

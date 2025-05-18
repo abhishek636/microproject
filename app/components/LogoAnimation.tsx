@@ -13,10 +13,10 @@ interface LogoAnimationProps {
 }
 
 export default function LogoAnimation({ 
-  text = "MECRO", 
+  text = "PHI PROTOCOL", 
   className = "",
-  delay = 100,
-  duration = 40,
+  delay = 50,
+  duration = 100,
   loopDelay = 1200,
   textAlign = "center" 
 }: LogoAnimationProps) {
@@ -80,14 +80,14 @@ export default function LogoAnimation({
   }, [api, delay, duration, loopDelay, letters.length]);
 
   return (
-    <div className={`relative inline-block h-[3.6rem] overflow-hidden ${className}`}>
+    <div className={`relative inline-block h-[5.6rem] overflow-hidden ${className}`}>
       <p
         className="split-parent"
         style={{
           textAlign,
           whiteSpace: "normal" as const,
           wordWrap: "break-word" as const,
-          fontSize: "3rem",
+          fontSize: "5rem",
           fontWeight: 600,
           display: 'inline-flex',
           alignItems: 'center',

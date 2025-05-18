@@ -26,21 +26,17 @@ export default function Loader() {
   if (!loading) return null;
 
   return (
-    <div className="fixed inset-0 bg-black flex flex-col items-center justify-center text-white z-50">
-        {/* Logo Animation with border effects */}
+    <div className="fixed inset-0 flex flex-col items-center justify-center text-white z-50">
         <div className="relative px-1 py-1 rounded-xl bg-black flex items-center">
-            {/* Gradient border using pseudo-elements */}
             <div className="absolute inset-0 overflow-hidden rounded-xl p-[1px]">
                 <div className="absolute inset-0 bg-[conic-gradient(from_90deg_at_50%_50%,#0ff_0%,#f0f_50%,#0ff_100%)] animate-spin-slow"></div>
             </div>
             
-            {/* Content with black background to cover inner part of gradient */}
             <div className="relative z-10 bg-black rounded-lg w-full h-full flex items-center px-4 py-1">
-                <LogoAnimation text="MECRO" />
+                <LogoAnimation text="PHI PROTOCOL" />
             </div>
         </div>
 
-      {/* Progress Bar */}
       <div className="w-[300px] mt-8">
         <div className="w-full bg-white/10 h-2 rounded-full overflow-hidden">
           <div

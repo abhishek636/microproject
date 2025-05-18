@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full">
       <body className="relative h-full">
-        <BackgroundEffects/>
+        <BackgroundEffects/>  
         <LoaderWrapper>
           {children}
         </LoaderWrapper>
