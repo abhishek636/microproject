@@ -227,7 +227,7 @@ const CollisionMechanism = React.forwardRef<HTMLDivElement, CollisionMechanismPr
 CollisionMechanism.displayName = "CollisionMechanism";
 
 interface ExplosionProps extends React.HTMLAttributes<HTMLDivElement> {
-  // Intentionally empty to extend HTMLAttributes without adding new props
+ intensity?: number;
 }
 
 const Explosion = ({ className, style, ...props }: ExplosionProps) => {

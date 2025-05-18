@@ -23,7 +23,7 @@ export default function LogoAnimation({
   const words = text.split(" ").map((word) => word.split(""));
   const letters = words.flat();
 
-  const [springs, api] = useSprings(letters.length, (index) => ({
+  const [springs, api] = useSprings(letters.length, (_index) => ({
     from: { opacity: 0, transform: "translate3d(0,30px,0)" },
   }));
 
