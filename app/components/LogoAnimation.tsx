@@ -104,14 +104,14 @@ export default function LogoAnimation({
             }}
           >
             {word.map((letter, letterIndex) => {
-              const index =
+              const _index =
                 words.slice(0, wordIndex).reduce((acc, w) => acc + w.length, 0) +
                 letterIndex;
 
               return (
                 <animated.span
-                  key={`letter-${index}`}
-                  style={springs[index]}
+                  key={`letter-${_index}`}
+                  style={springs[_index]}
                   className="inline-block will-change-transform"
                 >
                   {letter === " " ? "\u00A0" : letter}

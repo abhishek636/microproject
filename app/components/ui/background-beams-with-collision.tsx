@@ -1,7 +1,7 @@
 "use client";
 import { cn } from "../../lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
-import React, { useRef, useState, useEffect, ForwardedRef } from "react";
+import React, { useRef, useState, useEffect, ForwardedRef,useMemo } from "react";
 
 interface BackgroundBeamsWithCollisionProps {
   children: React.ReactNode;
@@ -231,13 +231,15 @@ interface ExplosionProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const Explosion = ({ className, style, ...props }: ExplosionProps) => {
-  const spans = Array.from({ length: 20 }, (_, index) => ({
+  const spans = useMemo(() => (
+  Array.from({ length: 20 }, (_, index) => ({
     id: index,
     initialX: 0,
     initialY: 0,
     directionX: Math.floor(Math.random() * 80 - 40),
     directionY: Math.floor(Math.random() * -50 - 10),
-  }));
+  }))
+), []);
 
   return (
     <div 
