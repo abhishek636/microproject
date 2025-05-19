@@ -78,7 +78,7 @@ export default function FloatingOrb({ baseSize = 0.1, speed = 1 }) {
   return (
     <div 
       ref={orbRef}
-      className="fixed will-change-transform z-50 pointer-events-none"
+      className="absolute w-full h-full will-change-transform z-50 pointer-events-none"
       style={{
         width: `${calculatedSize}px`,
         height: `${calculatedSize}px`,

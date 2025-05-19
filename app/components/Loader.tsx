@@ -27,7 +27,7 @@ export default function Loader() {
 
   return (
     <div className="fixed inset-0 flex flex-col items-center justify-center text-white z-50">
-        <div className="relative px-1 py-1 rounded-xl bg-black flex items-center">
+        <div className="relative px-[2px] py-[2px] rounded-xl bg-black flex items-center">
             <div className="absolute inset-0 overflow-hidden rounded-xl p-[1px]">
                 <div className="absolute inset-0 bg-[conic-gradient(from_90deg_at_50%_50%,#0ff_0%,#f0f_50%,#0ff_100%)] animate-spin-slow"></div>
             </div>
