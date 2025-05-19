@@ -12,7 +12,7 @@ export function VideoBanner() {
   // Transform scroll progress into circle scale and opacities
   // const circleScale = useTransform(scrollYProgress, [0, 1], [0.1, 5]); // Start from 0.1 instead of 0
   const videoOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-  const contentOpacity = useTransform(scrollYProgress, [0.3, 0.6], [0, 1]);
+  // const contentOpacity = useTransform(scrollYProgress, [0.3, 0.6], [0, 1]);
 
   return (
     <div ref={containerRef} className="relative h-[200vh]">
