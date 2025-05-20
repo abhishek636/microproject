@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { useSprings, animated } from "@react-spring/web";
+import { useSpring, animated } from "@react-spring/web";
 
 interface LogoAnimationProps {
   text?: string;
@@ -16,32 +16,29 @@ export default function LogoAnimation({
   text = "PHI PROTOCOL", 
   className = "",
   delay = 50,
-  duration = 100,
-  loopDelay = 1200,
+  duration = 500, // Increased duration for smoother whole-text animation
+  loopDelay = 300,
   textAlign = "center" 
 }: LogoAnimationProps) {
-  const words = text.split(" ").map((word) => word.split(""));
-  const letters = words.flat();
-
-  const [springs, api] = useSprings(letters.length, () => ({
+  const [spring, api] = useSpring(() => ({
     from: { opacity: 0, transform: "translate3d(0,30px,0)" },
   }));
 
   useEffect(() => {
-    const timeoutIds: NodeJS.Timeout[] = [];
     let animationRunning = true;
+    const timeoutIds: NodeJS.Timeout[] = [];
 
     const runAnimation = async () => {
       while (animationRunning) {
         // Animate in
-        await api.start((i) => ({
-          to: {
-            opacity: 1,
-            transform: "translate3d(0,0px,0)",
+        await new Promise<void>((resolve) => {
+          api.start({
+            to: { opacity: 1, transform: "translate3d(0,0px,0)" },
             config: { duration },
-          },
-          delay: i * delay,
-        }));
+            delay,
+            onRest: () => resolve()
+          });
+        });
 
         // Pause
         await new Promise<void>((resolve) => {
@@ -49,14 +46,14 @@ export default function LogoAnimation({
         });
 
         // Animate out
-        await api.start((i) => ({
-          to: {
-            opacity: 0,
-            transform: "translate3d(0,-30px,0)",
+        await new Promise<void>((resolve) => {
+          api.start({
+            to: { opacity: 0, transform: "translate3d(0,-30px,0)" },
             config: { duration },
-          },
-          delay: i * delay,
-        }));
+            delay,
+            onRest: () => resolve()
+          });
+        });
 
         // Pause
         await new Promise<void>((resolve) => {
@@ -65,7 +62,7 @@ export default function LogoAnimation({
 
         // Reset
         api.start({
-          to: { opacity: 0, transform: "translate3d(0,33px,0)" },
+          to: { opacity: 0, transform: "translate3d(0,30px,0)" },
           immediate: true,
         });
       }
@@ -77,50 +74,25 @@ export default function LogoAnimation({
       animationRunning = false;
       timeoutIds.forEach((id) => clearTimeout(id));
     };
-  }, [api, delay, duration, loopDelay, letters.length]);
+  }, [api, delay, duration, loopDelay]);
 
   return (
     <div className={`relative inline-block h-[5.6rem] overflow-hidden ${className}`}>
-      <p
-        className="split-parent"
+      <animated.p
         style={{
+          ...spring,
           textAlign,
-          whiteSpace: "normal",
-          wordWrap: "break-word",
+          whiteSpace: "nowrap",
           fontSize: "5rem",
           fontWeight: 600,
           display: 'inline-flex',
           alignItems: 'center',
+          lineHeight: '1.2',
+          willChange: 'transform, opacity'
         }}
       >
-        {words.map((word, wordIndex) => (
-          <span
-            key={`word-${wordIndex}`}
-            style={{ 
-              display: "inline-block", 
-              whiteSpace: "nowrap",
-              lineHeight: '1.2',
-              marginRight: wordIndex < words.length - 1 ? '0.5em' : 0
-            }}
-          >
-            {word.map((letter, letterIndex) => {
-              const _index =
-                words.slice(0, wordIndex).reduce((acc, w) => acc + w.length, 0) +
-                letterIndex;
-
-              return (
-                <animated.span
-                  key={`letter-${_index}`}
-                  style={springs[_index]}
-                  className="inline-block will-change-transform"
-                >
-                  {letter === " " ? "\u00A0" : letter}
-                </animated.span>
-              );
-            })}
-          </span>
-        ))}
-      </p>
+        {text}
+      </animated.p>
     </div>
   );
 }

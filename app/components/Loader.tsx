@@ -8,7 +8,7 @@ export default function Loader() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const minDuration = 3000; // Minimum loader time in ms
+    const minDuration = 5000; // Minimum loader time in ms
     const interval = setInterval(() => {
       setProgress((prev) => Math.min(prev + 1, 100));
     }, 30);

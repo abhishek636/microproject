@@ -145,3 +145,13 @@ body {
 .no-visible-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+.test-circle{
+  z-index:999 !important;
+}
+.bg_mountain {
+  background: url('/images/Mountains.webp');
+  background-position: bottom center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
