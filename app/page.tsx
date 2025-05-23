@@ -3,7 +3,7 @@ import HeroSection from "./components/home/HeroSection";
 import Introducing from "./components/home/Introducing";
 import {MicroWork} from "./components/home/MicroWork";
 import { SevenCard } from "./components/home/SevenCard";
-// import { EverythingIn } from "./components/home/EverythingIn";
+import { EverythingIn } from "./components/home/EverythingIn";
 // import { EverythingIn2 } from "./components/home/EverythingIn2";
 // import { Collaborative } from "./components/home/Collaborative";
 import { CustomizedTowork } from "./components/home/CustomizedTowork";
@@ -19,8 +19,8 @@ export default function Home() {
       <SevenCard/>
       <CustomizedTowork/>
       <Marquee/>
-      {/* <EverythingIn/>
-      <EverythingIn2/>
+      <EverythingIn/>
+      {/* <EverythingIn2/>
       <Collaborative/> */}
     </div>
   );
