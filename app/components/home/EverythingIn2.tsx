@@ -11,6 +11,22 @@ export function EverythingIn2() {
     offset: ["start end", "end start"],
   });
 
+  // Define all transforms at the top level
+  const transforms = [
+    {
+      x: useTransform(scrollYProgress, [0, 1], [0, -200]),
+      opacity: useTransform(scrollYProgress, [0.3, 0.7], [1, 0])
+    },
+    {
+      x: useTransform(scrollYProgress, [0, 1], [0, 0]),
+      opacity: useTransform(scrollYProgress, [0.3, 0.7], [1, 1])
+    },
+    {
+      x: useTransform(scrollYProgress, [0, 1], [0, 200]),
+      opacity: useTransform(scrollYProgress, [0.3, 0.7], [1, 0])
+    }
+  ];
+
   return (
     <ScrollFadeWrapper>
       <div ref={ref} className="max-w-[1180px] mx-auto">
@@ -21,22 +37,17 @@ export function EverythingIn2() {
       </div>
 
       <div className="grid grid-cols-3 gap-4 px-2 pt-10 text-center">
-        {[...Array(3)].map((_, i) => {
-          const x = useTransform(scrollYProgress, [0, 1], [0, i === 1 ? 0 : i === 0 ? -200 : 200]);
-          const opacity = useTransform(scrollYProgress, [0.3, 0.7], [1, i === 1 ? 1 : 0]);
-
-          return (
-            <motion.div key={i} style={{ x, opacity }}>
-              <Image
-                src="/images/Person.webp"
-                alt=""
-                width={400}
-                height={400}
-                className="rounded-xl"
-              />
-            </motion.div>
-          );
-        })}
+        {transforms.map(({ x, opacity }, i) => (
+          <motion.div key={i} style={{ x, opacity }}>
+            <Image
+              src="/images/Person.webp"
+              alt=""
+              width={400}
+              height={400}
+              className="rounded-xl"
+            />
+          </motion.div>
+        ))}
       </div>
     </ScrollFadeWrapper>
   );
