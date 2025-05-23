@@ -155,3 +155,17 @@ body {
   background-repeat: no-repeat;
   background-size: contain;
 }
+@media screen and (min-width: 1441px) {
+    .h13w8zts {
+        width: 1162.8px;
+    }
+}
+
+.hcocbkg {
+    background-image: radial-gradient(
+			circle at 50% 50%,
+			#dfc9a7,
+			#dfc9a7,
+			#f9f5ee
+		);
+}
